@@ -15,6 +15,9 @@ public class AVLTree {
     }
 
     public int height() {
+        if (root != null) {
+            return root.height();
+        }
         return 0;
     }
 
