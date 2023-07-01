@@ -22,7 +22,11 @@ public class AVLTree {
     }
 
     public boolean validAVL() {
-        return false;
+        if (root == null) {
+            // Ein leerer Baum gilt als valider AVL-Baum
+            return true;
+        }
+        return root.validAVL();
     }
 
     public void insert(int key) {

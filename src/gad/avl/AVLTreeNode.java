@@ -37,6 +37,42 @@ public class AVLTreeNode {
     public void setBalance(int balance) {
         this.balance = balance;
     }
+    public boolean validAVL() {
+        // Überprüfung der Balance-Bedingung
+        int leftHeight = (left != null) ? left.height() : 0;
+        int rightHeight = (right != null) ? right.height() : 0;
+        int balance = rightHeight - leftHeight;
+        if (balance != this.balance) {
+            return false;
+        }
+
+        // Überprüfung der Balance-Betrag-Bedingung
+        if (Math.abs(balance) > 1) {
+            return false;
+        }
+
+        // Überprüfung der Schlüssel-Bedingungen
+        if (left != null && key < left.maxKey()) {
+            return false;
+        }
+        if (right != null && key > right.minKey()) {
+            return false;
+        }
+
+        // Rekursive Überprüfung der Bedingungen für die Teilbäume
+        boolean leftValid = (left != null) ? left.validAVL() : true;
+        boolean rightValid = (right != null) ? right.validAVL() : true;
+
+        return leftValid && rightValid;
+    }
+
+    private int minKey() {
+        return (left != null) ? left.minKey() : key;
+    }
+
+    private int maxKey() {
+        return (right != null) ? right.maxKey() : key;
+    }
 
     public int height() {
         int leftHeight = (left != null) ? left.height() : 0;
