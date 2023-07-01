@@ -29,71 +29,8 @@ public class AVLTree {
             // Ein leerer Baum gilt als valider AVL-Baum
             return true;
         }
-        return checkNode(root) && !checkCycles(root, new HashSet<>());
+        return root.validAVL();
     }
-
-    private boolean checkNode(AVLTreeNode node) {
-        if (node == null) {
-            // Ein leerer Knoten gilt als valider AVL-Baum
-            return true;
-        }
-
-        // Überprüfung der Balance-Bedingung
-        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-        int balance = rightHeight - leftHeight;
-        if (balance != node.getBalance()) {
-            return false;
-        }
-
-        // Überprüfung der Balance-Betrag-Bedingung
-        if (Math.abs(balance) > 1) {
-            return false;
-        }
-
-        // Überprüfung der Schlüssel-Bedingungen
-        if (node.getLeft() != null && node.getKey() < node.getLeft().getMaxKey()) {
-            return false;
-        }
-        if (node.getRight() != null && node.getKey() > node.getRight().getMinKey()) {
-            return false;
-        }
-
-        // Rekursive Überprüfung der Bedingungen für die linken und rechten Teilbäume
-        boolean leftValid = checkNode(node.getLeft());
-        boolean rightValid = checkNode(node.getRight());
-
-        return leftValid && rightValid;
-    }
-
-    private boolean checkCycles(AVLTreeNode node, Set<AVLTreeNode> visited) {
-        if (node == null) {
-            return false;
-        }
-        if (visited.contains(node)) {
-            return true;
-        }
-        visited.add(node);
-        return checkCycles(node.getLeft(), visited) || checkCycles(node.getRight(), visited);
-    }
-
-    private int minKey() {
-        AVLTreeNode current = root;
-        while (current.getLeft() != null) {
-            current = current.getLeft();
-        }
-        return current.getKey();
-    }
-
-    private int maxKey() {
-        AVLTreeNode current = root;
-        while (current.getRight() != null) {
-            current = current.getRight();
-        }
-        return current.getKey();
-    }
-
-
     public void insert(int key) {
     }
 
