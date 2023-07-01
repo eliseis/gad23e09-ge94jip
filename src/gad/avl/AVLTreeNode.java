@@ -1,5 +1,7 @@
 package gad.avl;
 
+import java.util.Set;
+
 public class AVLTreeNode {
     private int key;
     private int balance = 0;
@@ -37,47 +39,34 @@ public class AVLTreeNode {
     public void setBalance(int balance) {
         this.balance = balance;
     }
-    public boolean validAVL() {
-        // Überprüfung der Balance-Bedingung
-        int leftHeight = (left != null) ? left.height() : 0;
-        int rightHeight = (right != null) ? right.height() : 0;
-        int balance = rightHeight - leftHeight;
-        if (balance != this.balance) {
-            return false;
-        }
-
-        // Überprüfung der Balance-Betrag-Bedingung
-        if (Math.abs(balance) > 1) {
-            return false;
-        }
-
-        // Überprüfung der Schlüssel-Bedingungen
-        if (left != null && key < left.maxKey()) {
-            return false;
-        }
-        if (right != null && key > right.minKey()) {
-            return false;
-        }
-
-        // Rekursive Überprüfung der Bedingungen für die Teilbäume
-        boolean leftValid = (left != null) ? left.validAVL() : true;
-        boolean rightValid = (right != null) ? right.validAVL() : true;
-
-        return leftValid && rightValid;
-    }
-
-    private int minKey() {
-        return (left != null) ? left.minKey() : key;
-    }
-
-    private int maxKey() {
-        return (right != null) ? right.maxKey() : key;
-    }
 
     public int height() {
         int leftHeight = (left != null) ? left.height() : 0;
         int rightHeight = (right != null) ? right.height() : 0;
         return Math.max(leftHeight, rightHeight) + 1;
+    }
+    private int minKey() {
+        AVLTreeNode current = this;
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+        }
+        return current.getKey();
+    }
+
+    int maxKey() {
+        AVLTreeNode current = this;
+        while (current.getRight() != null) {
+            current = current.getRight();
+        }
+        return current.getKey();
+    }
+
+    @Override
+    public int getMaxKey() {
+        return maxKey();
+    }
+    public int getMinKey(){
+        return minKey();
     }
 
     /**
