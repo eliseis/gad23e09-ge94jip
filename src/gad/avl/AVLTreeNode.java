@@ -46,9 +46,23 @@ public class    AVLTreeNode {
         int rightHeight = (right != null) ? right.height() : 0;
         return Math.max(leftHeight, rightHeight) + 1;
     }
+    private boolean hasCycle(AVLTreeNode node, Set<AVLTreeNode> visited) {
+        if (node == null) {
+            return false;
+        }
+
+        if (visited.contains(node)) {
+            // Der Knoten wurde bereits besucht, es gibt einen Zyklus im Baum
+            return true;
+        }
+
+        visited.add(node);
+
+        return hasCycle(node.getLeft(), visited) || hasCycle(node.getRight(), visited);
+    }
     public boolean validAVL() {
         Set<AVLTreeNode> visited = new HashSet<>();
-        return checkNode(this, visited);
+        return checkNode(this, visited) && !hasCycle(this, visited);
     }
 
     private boolean checkNode(AVLTreeNode node, Set<AVLTreeNode> visited) {
