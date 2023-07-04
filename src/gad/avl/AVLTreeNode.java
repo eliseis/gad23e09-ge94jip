@@ -1,8 +1,9 @@
 package gad.avl;
 
+import java.util.HashSet;
 import java.util.Set;
 
-public class AVLTreeNode {
+public class    AVLTreeNode {
     private int key;
     private int balance = 0;
     private AVLTreeNode left = null;
@@ -46,40 +47,57 @@ public class AVLTreeNode {
         return Math.max(leftHeight, rightHeight) + 1;
     }
     public boolean validAVL() {
-        // Überprüfung der Balance-Bedingung
-        int leftHeight = (left != null) ? left.height() : 0;
-        int rightHeight = (right != null) ? right.height() : 0;
-        int balance = rightHeight - leftHeight;
-        if (balance != this.balance) {
+        Set<AVLTreeNode> visited = new HashSet<>();
+        return checkNode(this, visited);
+    }
+
+    private boolean checkNode(AVLTreeNode node, Set<AVLTreeNode> visited) {
+        if (node == null) {
+            return true;
+        }
+
+        if (visited.contains(node)) {
+            // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
             return false;
         }
 
-        // Überprüfung der Balance-Betrag-Bedingung
+        visited.add(node);
+
+        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
+        int balance = rightHeight - leftHeight;
+        if (balance != node.getBalance()) {
+            return false;
+        }
+
         if (Math.abs(balance) > 1) {
             return false;
         }
 
-        // Überprüfung der Schlüssel-Bedingungen
-        if (left != null && key < left.maxKey()) {
+        if (node.getLeft() != null && node.getKey() < node.getLeft().maxKey()) {
             return false;
         }
-        if (right != null && key > right.minKey()) {
+        if (node.getRight() != null && node.getKey() > node.getRight().minKey()) {
             return false;
         }
 
-        // Rekursive Überprüfung der Bedingungen für die Teilbäume
-        boolean leftValid = (left != null) ? left.validAVL() : true;
-        boolean rightValid = (right != null) ? right.validAVL() : true;
-
-        return leftValid && rightValid;
+        return checkNode(node.getLeft(), visited) && checkNode(node.getRight(), visited);
     }
 
     private int minKey() {
-        return (left != null) ? left.minKey() : key;
+        AVLTreeNode current = this;
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+        }
+        return current.getKey();
     }
 
     private int maxKey() {
-        return (right != null) ? right.maxKey() : key;
+        AVLTreeNode current = this;
+        while (current.getRight() != null) {
+            current = current.getRight();
+        }
+        return current.getKey();
     }
 
 
