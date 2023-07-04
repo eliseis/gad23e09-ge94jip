@@ -63,6 +63,65 @@ public class    AVLTreeNode {
         return findNode(this,value);
     }
 
+    public AVLTreeNode insertRecursive(AVLTreeNode node, int key) {
+        if (node == null) {
+            return new AVLTreeNode(key);
+        }
+
+        if (key < node.getKey()) {
+            node.setLeft(insertRecursive(node.getLeft(), key));
+        } else if (key > node.getKey()) {
+            node.setRight(insertRecursive(node.getRight(), key));
+        } else {
+            // Fehler: Der Wert existiert bereits im Baum
+            throw new IllegalArgumentException("Der Wert existiert bereits im Baum.");
+        }
+
+        updateHeightAndBalance(node);
+        return balance(node);
+    }
+    private void updateHeightAndBalance(AVLTreeNode node) {
+        if (node != null) {
+            node.setBalance(node.getRight().height() - node.getLeft().height());
+            updateHeightAndBalance(node.getLeft());
+            updateHeightAndBalance(node.getRight());
+        }
+    }
+    private AVLTreeNode balance(AVLTreeNode node) {
+        if (node.getBalance() < -1) {
+            if (node.getLeft().getLeft().height() < node.getLeft().getRight().height()) {
+                node.setLeft(rotateLeft(node.getLeft()));
+            }
+            return rotateRight(node);
+        } else if (node.getBalance() > 1) {
+            if (node.getRight().getRight().height() < node.getRight().getLeft().height()) {
+                node.setRight(rotateRight(node.getRight()));
+            }
+            return rotateLeft(node);
+        }
+        return node;
+    }
+    private AVLTreeNode rotateLeft(AVLTreeNode node) {
+        AVLTreeNode newRoot = node.getRight();
+        node.setRight(newRoot.getLeft());
+        newRoot.setLeft(node);
+
+        updateHeightAndBalance(node);
+        updateHeightAndBalance(newRoot);
+
+        return newRoot;
+    }
+    private AVLTreeNode rotateRight(AVLTreeNode node) {
+        AVLTreeNode newRoot = node.getLeft();
+        node.setLeft(newRoot.getRight());
+        newRoot.setRight(node);
+
+        updateHeightAndBalance(node);
+        updateHeightAndBalance(newRoot);
+
+        return newRoot;
+    }
+
     public boolean validAVL() {
         Set<AVLTreeNode> visited = new HashSet<>();
         return checkNode(this, visited);
