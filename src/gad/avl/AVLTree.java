@@ -4,9 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AVLTree {
-    private AVLTreeNode root = null;
+    private AVLTreeNode root;
 
     public AVLTree() {
+        root = null;
     }
 
     public AVLTreeNode getRoot() {
@@ -35,7 +36,7 @@ public class AVLTree {
     }
 
     public boolean find(int key) {
-        return false;
+        return root.FindNode(key);
     }
 
     /**
