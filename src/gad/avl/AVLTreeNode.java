@@ -8,6 +8,7 @@ public class    AVLTreeNode {
     private int balance = 0;
     private AVLTreeNode left = null;
     private AVLTreeNode right = null;
+    private int h;
 
     public AVLTreeNode(int key) {
         this.key = key;
@@ -62,8 +63,11 @@ public class    AVLTreeNode {
     public boolean FindNode(int value) {
         return findNode(this,value);
     }
+    public void insert(int key) {
+        insertRecursive(this,key);
+    }
 
-    public AVLTreeNode insertRecursive(AVLTreeNode node, int key) {
+    private AVLTreeNode insertRecursive(AVLTreeNode node, int key) {
         if (node == null) {
             return new AVLTreeNode(key);
         }
@@ -73,8 +77,8 @@ public class    AVLTreeNode {
         } else if (key > node.getKey()) {
             node.setRight(insertRecursive(node.getRight(), key));
         } else {
-            // Fehler: Der Wert existiert bereits im Baum
-            throw new IllegalArgumentException("Der Wert existiert bereits im Baum.");
+            // В случае равных ключей вставляем элемент в правое поддерево
+            node.setRight(insertRecursive(node.getRight(), key));
         }
 
         updateHeightAndBalance(node);
@@ -82,19 +86,24 @@ public class    AVLTreeNode {
     }
     private void updateHeightAndBalance(AVLTreeNode node) {
         if (node != null) {
-            node.setBalance(node.getRight().height() - node.getLeft().height());
+            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
+
+            node.setBalance(Math.max(node.getLeft().height(), node.getRight().height()) + 1);
+            node.setBalance(rightHeight - leftHeight);
+
             updateHeightAndBalance(node.getLeft());
             updateHeightAndBalance(node.getRight());
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
         if (node.getBalance() < -1) {
-            if (node.getLeft().getLeft().height() < node.getLeft().getRight().height()) {
+            if (node.getLeft().getBalance() > 0) {
                 node.setLeft(rotateLeft(node.getLeft()));
             }
             return rotateRight(node);
         } else if (node.getBalance() > 1) {
-            if (node.getRight().getRight().height() < node.getRight().getLeft().height()) {
+            if (node.getRight().getBalance() < 0) {
                 node.setRight(rotateRight(node.getRight()));
             }
             return rotateLeft(node);

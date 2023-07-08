@@ -33,7 +33,7 @@ public class AVLTree {
         return root.validAVL();
     }
     public void insert(int key) {
-        root.insertRecursive(root, key);
+        root.insert(key);
     }
 
     public boolean find(int key) {
