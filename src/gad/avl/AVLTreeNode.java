@@ -8,7 +8,7 @@ public class    AVLTreeNode {
     private int balance = 0;
     private AVLTreeNode left = null;
     private AVLTreeNode right = null;
-    private int h;
+    private int hy;
 
     public AVLTreeNode(int key) {
         this.key = key;
@@ -42,10 +42,14 @@ public class    AVLTreeNode {
         this.balance = balance;
     }
 
-    public int height() {
-        int leftHeight = (left != null) ? left.height() : 0;
-        int rightHeight = (right != null) ? right.height() : 0;
-        return Math.max(leftHeight, rightHeight) + 1;
+    private int getheight() {
+        int leftHeight = (left != null) ? left.getheight() : 0;
+        int rightHeight = (right != null) ? right.getheight() : 0;
+        hy = Math.max(leftHeight, rightHeight) + 1;
+        return hy;
+    }
+    public int height(){
+        return hy;
     }
     private boolean findNode(AVLTreeNode node, int value) {
         if (node == null) {
@@ -74,13 +78,9 @@ public class    AVLTreeNode {
 
         if (key < node.getKey()) {
             node.setLeft(insertRecursive(node.getLeft(), key));
-        } else if (key > node.getKey()) {
-            node.setRight(insertRecursive(node.getRight(), key));
         } else {
-            // В случае равных ключей вставляем элемент в правое поддерево
             node.setRight(insertRecursive(node.getRight(), key));
         }
-
         updateHeightAndBalance(node);
         return balance(node);
     }
@@ -89,7 +89,6 @@ public class    AVLTreeNode {
             int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
             int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
 
-            node.setBalance(Math.max(node.getLeft().height(), node.getRight().height()) + 1);
             node.setBalance(rightHeight - leftHeight);
 
             updateHeightAndBalance(node.getLeft());
