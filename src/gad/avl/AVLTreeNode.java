@@ -5,6 +5,7 @@ import java.util.Set;
 
 public class    AVLTreeNode {
     private int key;
+    private int h = 1;
     private int balance = 0;
     private AVLTreeNode max;
     private AVLTreeNode min;
@@ -41,6 +42,9 @@ public class    AVLTreeNode {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+    public void seth(int height) {
+        this.h = height;
     }
     public int height() {
         int leftHeight = (left != null) ? left.height() : 0;
@@ -84,11 +88,12 @@ public class    AVLTreeNode {
         if (node != null) {
             int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
             int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
+            node.seth(Math.max(leftHeight, rightHeight) + 1);
             node.setBalance(rightHeight - leftHeight);
         }
     }
     private int getDiff() {
-        return (left != null ? left.height() : 0) - (right != null ? right.height(): 0);
+        return (left != null ? left.h : 0) - (right != null ? right.h: 0);
     }
     private AVLTreeNode balance(AVLTreeNode node) {
         updateBalance(node);
@@ -162,15 +167,39 @@ public class    AVLTreeNode {
             return false;
         }
         updateMinMax();
-        if (node.getLeft() != null && node.getKey() < node.getLeft().min.key) {
+        if (node.getLeft() != null && node.getKey() < node.getLeft().minKey()) {
             return false;
         }
         updateMinMax();
-        if (node.getRight() != null && node.getKey() > node.getRight().min.key) {
+        if (node.getRight() != null && node.getKey() > node.getRight().maxKey()) {
             return false;
         }
 
         return checkNode(node.getLeft(), visited) && checkNode(node.getRight(), visited);
+    }
+    private int minKey() {
+        Set<AVLTreeNode> V = new HashSet<>();
+        AVLTreeNode current = this;
+        while (current.getLeft() != null) {
+            current = current.getLeft();
+            if (V.contains(current)){
+                return current.getKey();
+            }
+            V.add(current);
+        }
+        return current.getKey();
+    }
+    private int maxKey() {
+        Set<AVLTreeNode> V = new HashSet<>();
+        AVLTreeNode current = this;
+        while (current.getRight() != null) {
+            current = current.getRight();
+            if (V.contains(current)){
+                return current.getKey();
+            }
+            V.add(current);
+        }
+        return current.getKey();
     }
     private void updateMinMax() {
         max = this;
