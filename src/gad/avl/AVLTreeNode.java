@@ -3,7 +3,7 @@ package gad.avl;
 import java.util.HashSet;
 import java.util.Set;
 
-public class    AVLTreeNode {
+public class AVLTreeNode {
     private int key;
     private int h = 1;
     private int balance = 0;
@@ -41,14 +41,15 @@ public class    AVLTreeNode {
     public void setBalance(int balance) {
         this.balance = balance;
     }
+
     public void seth(int height) {
         this.h = height;
     }
+
     public int height() {
-        int leftHeight = (left != null) ? left.height() : 0;
-        int rightHeight = (right != null) ? right.height() : 0;
-        return Math.max(leftHeight, rightHeight) + 1;
+        return h;
     }
+
     public boolean findNode(int value) {
         if (this.getKey() == value) {
             return true;
@@ -64,6 +65,7 @@ public class    AVLTreeNode {
             return this.right.findNode(value);
         }
     }
+
     public void insert(int key) {
         if (key < this.key) {
             if (left == null) {
@@ -82,12 +84,15 @@ public class    AVLTreeNode {
         balance(this);
         this.updateBalance();
     }
-    private void updateBalance() {
-            this.seth(Math.max(left != null ? left.height() : 0, right != null ? right.height() : 0) + 1);
+
+    private void updateheight() {
+        this.seth(Math.max(left != null ? left.height() : 0, right != null ? right.height() : 0) + 1);
     }
+
     private int getDiff() {
-        return (left != null ? left.h : 0) - (right != null ? right.h: 0);
+        return (right != null ? right.h : 0) - (left != null ? left.h : 0);
     }
+
     private AVLTreeNode balance(AVLTreeNode node) {
         node.updateBalance();
         if (getDiff() < -1) {
@@ -108,6 +113,7 @@ public class    AVLTreeNode {
         // Keine Rebalancierung erforderlich
         return node;
     }
+
     private AVLTreeNode rotateLeft(AVLTreeNode node) {
         AVLTreeNode newRoot = node.getRight();
         node.setRight(newRoot.getLeft());
@@ -118,6 +124,7 @@ public class    AVLTreeNode {
 
         return newRoot;
     }
+
     private AVLTreeNode rotateRight(AVLTreeNode node) {
         AVLTreeNode newRoot = node.getLeft();
         node.setLeft(newRoot.getRight());
@@ -164,24 +171,26 @@ public class    AVLTreeNode {
 
         return checkNode(node.getLeft(), visited) && checkNode(node.getRight(), visited);
     }
+
     private int minKey() {
         Set<AVLTreeNode> V = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getLeft() != null) {
             current = current.getLeft();
-            if (V.contains(current)){
+            if (V.contains(current)) {
                 return current.getKey();
             }
             V.add(current);
         }
         return current.getKey();
     }
+
     private int maxKey() {
         Set<AVLTreeNode> V = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getRight() != null) {
             current = current.getRight();
-            if (V.contains(current)){
+            if (V.contains(current)) {
                 return current.getKey();
             }
             V.add(current);
