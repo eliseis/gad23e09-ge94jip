@@ -37,7 +37,7 @@ public class AVLTree {
     }
 
     public boolean find(int key) {
-        return root.FindNode(key);
+        return root.findNode(root,key);
     }
 
     /**
