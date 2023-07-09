@@ -84,7 +84,7 @@ public class    AVLTreeNode {
         if (node != null) {
             int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
             int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-            node.seth(Math.max(leftHeight, rightHeight) + 1);
+            node.seth(Math.max(left != null ? left.height() : 0, right != null ? right.height() : 0) + 1);
             node.setBalance(rightHeight - leftHeight);
         }
     }
