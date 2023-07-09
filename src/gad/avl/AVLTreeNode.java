@@ -48,15 +48,17 @@ public class    AVLTreeNode {
         return h;
     }
     public boolean findNode(int value) {
-        if (this == null) {
-            return false;
-        }
-
         if (this.getKey() == value) {
             return true;
         } else if (value < this.getKey()) {
+            if (this.left == null) {
+                return false;
+            }
             return this.left.findNode(value);
         } else {
+            if (this.right == null) {
+                return false;
+            }
             return this.right.findNode(value);
         }
     }
@@ -80,15 +82,15 @@ public class    AVLTreeNode {
     }
     private void updateBalance(AVLTreeNode node) {
         if (node != null) {
-            int leftHeight = node.getLeft().height();
-            int rightHeight = node.getRight().height();
+            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
             node.seth(Math.max(leftHeight, rightHeight) + 1);
             node.setBalance(rightHeight - leftHeight);
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
-        int leftHeight = node.getLeft().height();
-        int rightHeight = node.getRight().height();
+        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
         if (balance < -1) {
             if (node.getLeft().getBalance() > 0) {

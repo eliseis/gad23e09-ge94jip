@@ -33,10 +33,16 @@ public class AVLTree {
         return root.validAVL();
     }
     public void insert(int key) {
+        if (root == null){
+            root = new AVLTreeNode(key);
+        }
         root.insert(key);
     }
 
     public boolean find(int key) {
+        if (root == null){
+            return false;
+        }
         return root.findNode(key);
     }
 
