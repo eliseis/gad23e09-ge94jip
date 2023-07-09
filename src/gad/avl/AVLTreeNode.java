@@ -66,7 +66,7 @@ public class AVLTreeNode {
         }
     }
 
-    public void insert(int key) {
+    public AVLTreeNode insert(int key) {
         if (key < this.key) {
             if (left == null) {
                 left = new AVLTreeNode(key);
@@ -82,7 +82,8 @@ public class AVLTreeNode {
             }
         }
         balance(this);
-        this.updateBalance();
+        this.updateheight();
+        return balance(this);
     }
 
     private void updateheight() {
@@ -94,7 +95,7 @@ public class AVLTreeNode {
     }
 
     private AVLTreeNode balance(AVLTreeNode node) {
-        node.updateBalance();
+        node.updateheight();
         if (getDiff() < -1) {
             if (node.getLeft().getDiff() > 0) {
                 // Doppelrotation: Links-Rechts
@@ -119,8 +120,8 @@ public class AVLTreeNode {
         node.setRight(newRoot.getLeft());
         newRoot.setLeft(node);
 
-        node.updateBalance();
-        newRoot.updateBalance();
+        node.updateheight();
+        newRoot.updateheight();
 
         return newRoot;
     }
@@ -130,8 +131,8 @@ public class AVLTreeNode {
         node.setLeft(newRoot.getRight());
         newRoot.setRight(node);
 
-        node.updateBalance();
-        newRoot.updateBalance();
+        node.updateheight();
+        newRoot.updateheight();
 
         return newRoot;
     }
