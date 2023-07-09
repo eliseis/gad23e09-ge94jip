@@ -134,7 +134,10 @@ public class    AVLTreeNode {
             return true;
         }
 
-
+        if (visited.contains(node)) {
+            // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
+            return false;
+        }
 
         visited.add(node);
 
