@@ -78,33 +78,25 @@ public class    AVLTreeNode {
             }
         }
         balance(this);
-        updateBalance(this);
+        this.updateBalance();
     }
-    private void updateBalance(AVLTreeNode node) {
-        if (node != null) {
-            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-            node.seth(Math.max(left != null ? left.height() : 0, right != null ? right.height() : 0) + 1);
-            node.setBalance(rightHeight - leftHeight);
-        }
+    private void updateBalance() {
+            this.seth(Math.max(left != null ? left.height() : 0, right != null ? right.height() : 0) + 1);
     }
     private int getDiff() {
         return (left != null ? left.h : 0) - (right != null ? right.h: 0);
     }
     private AVLTreeNode balance(AVLTreeNode node) {
-        updateBalance(node);
-        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-        int balance = rightHeight - leftHeight;
-        if (balance < -1) {
-            if (node.getLeft().getBalance() > 0) {
+        node.updateBalance();
+        if (getDiff() < -1) {
+            if (node.getLeft().getDiff() > 0) {
                 // Doppelrotation: Links-Rechts
                 node.setLeft(rotateLeft(node.getLeft()));
             }
             // Einfachrotation: Rechts
             return rotateRight(node);
-        } else if (balance > 1) {
-            if (node.getRight().getBalance() < 0) {
+        } else if (getDiff() > 1) {
+            if (node.getRight().getDiff() < 0) {
                 // Doppelrotation: Rechts-Links
                 node.setRight(rotateRight(node.getRight()));
             }
@@ -119,8 +111,8 @@ public class    AVLTreeNode {
         node.setRight(newRoot.getLeft());
         newRoot.setLeft(node);
 
-        updateBalance(node);
-        updateBalance(newRoot);
+        node.updateBalance();
+        newRoot.updateBalance();
 
         return newRoot;
     }
@@ -129,8 +121,8 @@ public class    AVLTreeNode {
         node.setLeft(newRoot.getRight());
         newRoot.setRight(node);
 
-        updateBalance(node);
-        updateBalance(newRoot);
+        node.updateBalance();
+        newRoot.updateBalance();
 
         return newRoot;
     }
@@ -155,7 +147,7 @@ public class    AVLTreeNode {
         int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
         int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
-        if (balance != node.getBalance()) {
+        if (balance != node.getDiff()) {
             return false;
         }
 
