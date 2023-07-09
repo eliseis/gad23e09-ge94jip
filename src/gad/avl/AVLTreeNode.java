@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class    AVLTreeNode {
     private int key;
-    private int h = 1;
+    private int balance = 0;
     private AVLTreeNode max;
     private AVLTreeNode min;
     private AVLTreeNode left = null;
@@ -23,9 +23,8 @@ public class    AVLTreeNode {
         return right;
     }
 
-
     public int getBalance() {
-        return (left != null ? left.h : 0) - (right != null ? right.h : 0);
+        return balance;
     }
 
     public int getKey() {
@@ -39,11 +38,14 @@ public class    AVLTreeNode {
     public void setRight(AVLTreeNode right) {
         this.right = right;
     }
-    public void seth(int height) {
-        this.h = height;
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
     public int height() {
-        return h;
+        int leftHeight = (left != null) ? left.height() : 0;
+        int rightHeight = (right != null) ? right.height() : 0;
+        return Math.max(leftHeight, rightHeight) + 1;
     }
     public boolean findNode(int value) {
         if (this.getKey() == value) {
@@ -76,20 +78,20 @@ public class    AVLTreeNode {
             }
         }
         balance(this);
-        update(this);
+        updateBalance(this);
     }
-    private void update(AVLTreeNode node) {
+    private void updateBalance(AVLTreeNode node) {
         if (node != null) {
             int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
             int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-            node.seth(Math.max(leftHeight, rightHeight) + 1);
+            node.setBalance(rightHeight - leftHeight);
         }
     }
     private int getDiff() {
-        return (left != null ? left.h : 0) - (right != null ? right.h: 0);
+        return (left != null ? left.height() : 0) - (right != null ? right.height(): 0);
     }
     private AVLTreeNode balance(AVLTreeNode node) {
-        update(node);
+        updateBalance(node);
         int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
         int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
@@ -116,8 +118,8 @@ public class    AVLTreeNode {
         node.setRight(newRoot.getLeft());
         newRoot.setLeft(node);
 
-        update(node);
-        update(newRoot);
+        updateBalance(node);
+        updateBalance(newRoot);
 
         return newRoot;
     }
@@ -126,8 +128,8 @@ public class    AVLTreeNode {
         node.setLeft(newRoot.getRight());
         newRoot.setRight(node);
 
-        update(node);
-        update(newRoot);
+        updateBalance(node);
+        updateBalance(newRoot);
 
         return newRoot;
     }
@@ -192,7 +194,7 @@ public class    AVLTreeNode {
     }
 
     private int dotNode(StringBuilder sb, int idx) {
-        sb.append(String.format("\t%d [label=\"%d, b=%d\"];%n", idx, key, getBalance()));
+        sb.append(String.format("\t%d [label=\"%d, b=%d\"];%n", idx, key, balance));
         int next = idx + 1;
         if (left != null) {
             next = left.dotLink(sb, idx, next, "l");
