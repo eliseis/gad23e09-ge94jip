@@ -61,48 +61,47 @@ public class    AVLTreeNode {
     public boolean FindNode(int value) {
         return findNode(this,value);
     }
+
     public void insert(int key) {
-        insertRecursive(this,key);
-    }
-
-    private AVLTreeNode insertRecursive(AVLTreeNode node, int key) {
-        if (node == null) {
-            return new AVLTreeNode(key);
-        }
-
-        if (key < node.getKey()) {
-            node.setLeft(insertRecursive(node.getLeft(), key));
+        if (key < this.key) {
+            if (left == null) {
+                left = new AVLTreeNode(key);
+            } else {
+                left.insert(key);
+            }
         } else {
-            node.setRight(insertRecursive(node.getRight(), key));
+            if (right == null) {
+                right = new AVLTreeNode(key);
+            } else {
+                right.insert(key);
+            }
         }
-        updateHeightAndBalance(node);
-        return balance(node);
+        updateBalance(this);
+        balance(this);
     }
-    private void updateHeightAndBalance(AVLTreeNode node) {
+    private void updateBalance(AVLTreeNode node) {
         if (node != null) {
-            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
-
+            int leftHeight = node.getLeft().height();
+            int rightHeight = node.getRight().height();
             node.setBalance(rightHeight - leftHeight);
 
-            updateHeightAndBalance(node.getLeft());
-            updateHeightAndBalance(node.getRight());
+            updateBalance(node.getLeft());
+            updateBalance(node.getRight());
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
         int balance = node.getBalance();
-
         if (balance < -1) {
             if (node.getLeft().getBalance() > 0) {
                 // Doppelrotation: Links-Rechts
-                node.setLeft(rotateLeft(node.getLeft()));
+                node.rotateRight(rotateLeft(node.getLeft()));
             }
             // Einfachrotation: Rechts
             return rotateRight(node);
         } else if (balance > 1) {
             if (node.getRight().getBalance() < 0) {
                 // Doppelrotation: Rechts-Links
-                node.setRight(rotateRight(node.getRight()));
+                node.rotateLeft(rotateRight(node.getRight()));
             }
             // Einfachrotation: Links
             return rotateLeft(node);
@@ -116,8 +115,8 @@ public class    AVLTreeNode {
         node.setRight(newRoot.getLeft());
         newRoot.setLeft(node);
 
-        updateHeightAndBalance(node);
-        updateHeightAndBalance(newRoot);
+        updateBalance(node);
+        updateBalance(newRoot);
 
         return newRoot;
     }
@@ -126,8 +125,8 @@ public class    AVLTreeNode {
         node.setLeft(newRoot.getRight());
         newRoot.setRight(node);
 
-        updateHeightAndBalance(node);
-        updateHeightAndBalance(newRoot);
+        updateBalance(node);
+        updateBalance(newRoot);
 
         return newRoot;
     }
