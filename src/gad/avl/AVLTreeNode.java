@@ -90,17 +90,25 @@ public class    AVLTreeNode {
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
-        if (node.getBalance() < -1) {
+        int balance = node.getBalance();
+
+        if (balance < -1) {
             if (node.getLeft().getBalance() > 0) {
+                // Doppelrotation: Links-Rechts
                 node.setLeft(rotateLeft(node.getLeft()));
             }
+            // Einfachrotation: Rechts
             return rotateRight(node);
-        } else if (node.getBalance() > 1) {
+        } else if (balance > 1) {
             if (node.getRight().getBalance() < 0) {
+                // Doppelrotation: Rechts-Links
                 node.setRight(rotateRight(node.getRight()));
             }
+            // Einfachrotation: Links
             return rotateLeft(node);
         }
+
+        // Keine Rebalancierung erforderlich
         return node;
     }
     private AVLTreeNode rotateLeft(AVLTreeNode node) {
