@@ -45,7 +45,9 @@ public class    AVLTreeNode {
         this.h = height;
     }
     public int height() {
-        return h;
+        int leftHeight = (left != null) ? left.height() : 0;
+        int rightHeight = (right != null) ? right.height() : 0;
+        return Math.max(leftHeight, rightHeight) + 1;
     }
     public boolean findNode(int value) {
         if (this.getKey() == value) {
@@ -143,7 +145,6 @@ public class    AVLTreeNode {
         }
 
         visited.add(node);
-        updateBalance();
         int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
         int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
