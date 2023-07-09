@@ -45,9 +45,7 @@ public class    AVLTreeNode {
         this.h = height;
     }
     public int height() {
-        int leftHeight = (left != null) ? left.height() : 0;
-        int rightHeight = (right != null) ? right.height() : 0;
-        return Math.max(leftHeight, rightHeight) + 1;
+        return h;
     }
     public boolean findNode(int value) {
         if (this.getKey() == value) {
