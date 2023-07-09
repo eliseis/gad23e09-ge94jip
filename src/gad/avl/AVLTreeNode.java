@@ -95,7 +95,6 @@ public class    AVLTreeNode {
             if (node.getLeft().getBalance() > 0) {
                 // Doppelrotation: Links-Rechts
                 node.setLeft(rotateLeft(node.getLeft()));
-                rotateRight(node.getLeft());
             }
             // Einfachrotation: Rechts
             return rotateRight(node);
@@ -103,12 +102,10 @@ public class    AVLTreeNode {
             if (node.getRight().getBalance() < 0) {
                 // Doppelrotation: Rechts-Links
                 node.setRight(rotateRight(node.getRight()));
-                rotateLeft(node.getRight());
             }
             // Einfachrotation: Links
             return rotateLeft(node);
         }
-
         // Keine Rebalancierung erforderlich
         return node;
     }
