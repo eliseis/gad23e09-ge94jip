@@ -173,10 +173,7 @@ public class    AVLTreeNode {
         Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getLeft() != null) {
-            if (visited.contains(current.getLeft())) {
-                // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
-                return current.getKey();
-            }
+
             current = current.getLeft();
         }
         return current.getKey();
@@ -186,10 +183,7 @@ public class    AVLTreeNode {
         Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getRight() != null) {
-            if (visited.contains(current.getRight())) {
-                // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
-                return current.getKey();
-            }
+
             current = current.getRight();
         }
         return current.getKey();
