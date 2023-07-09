@@ -63,7 +63,7 @@ public class    AVLTreeNode {
     }
 
     public void insert(int key) {
-        if (key < this.key) {
+        if (key <= this.key) {
             if (left == null) {
                 left = new AVLTreeNode(key);
             } else {
