@@ -40,7 +40,6 @@ public class    AVLTreeNode {
     public void setBalance(int balance) {
         this.balance = balance;
     }
-
     public int height() {
         int leftHeight = (left != null) ? left.height() : 0;
         int rightHeight = (right != null) ? right.height() : 0;
@@ -148,8 +147,8 @@ public class    AVLTreeNode {
 
         visited.add(node);
 
-        int leftHeight = node.getLeft().height();
-        int rightHeight = node.getRight().height();
+        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
         if (balance != node.getBalance()) {
             return false;
@@ -170,20 +169,16 @@ public class    AVLTreeNode {
     }
 
     private int minKey() {
-        Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getLeft() != null) {
-
             current = current.getLeft();
         }
         return current.getKey();
     }
 
     private int maxKey() {
-        Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getRight() != null) {
-
             current = current.getRight();
         }
         return current.getKey();
