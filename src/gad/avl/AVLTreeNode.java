@@ -81,8 +81,8 @@ public class    AVLTreeNode {
     }
     private void updateHeightAndBalance(AVLTreeNode node) {
         if (node != null) {
-            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
+            int leftHeight = node.getLeft().height();
+            int rightHeight = node.getRight().height();
 
             node.setBalance(rightHeight - leftHeight);
 
@@ -91,6 +91,12 @@ public class    AVLTreeNode {
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
+        if (node.getBalance() == 0){
+            return node;
+        }
+        if (node.getBalance() == 1 || node.getBalance() == -1 ){
+            return node;
+        }
         if (node.getBalance() < -1) {
             if (node.getLeft().getBalance() > 0) {
                 node.setLeft(rotateLeft(node.getLeft()));
@@ -142,8 +148,8 @@ public class    AVLTreeNode {
 
         visited.add(node);
 
-        int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
-        int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
+        int leftHeight = node.getLeft().height();
+        int rightHeight = node.getRight().height();
         int balance = rightHeight - leftHeight;
         if (balance != node.getBalance()) {
             return false;
@@ -164,16 +170,26 @@ public class    AVLTreeNode {
     }
 
     private int minKey() {
+        Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getLeft() != null) {
+            if (visited.contains(current.getLeft())) {
+                // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
+                return current.getKey();
+            }
             current = current.getLeft();
         }
         return current.getKey();
     }
 
     private int maxKey() {
+        Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getRight() != null) {
+            if (visited.contains(current.getLeft())) {
+                // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
+                return current.getKey();
+            }
             current = current.getRight();
         }
         return current.getKey();
