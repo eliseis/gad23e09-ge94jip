@@ -8,7 +8,6 @@ public class    AVLTreeNode {
     private int balance = 0;
     private AVLTreeNode left = null;
     private AVLTreeNode right = null;
-    private int hy;
 
     public AVLTreeNode(int key) {
         this.key = key;
@@ -42,14 +41,10 @@ public class    AVLTreeNode {
         this.balance = balance;
     }
 
-    private int getheight() {
-        int leftHeight = (left != null) ? left.getheight() : 0;
-        int rightHeight = (right != null) ? right.getheight() : 0;
-        hy = Math.max(leftHeight, rightHeight) + 1;
-        return hy;
-    }
-    public int height(){
-        return hy;
+    public int height() {
+        int leftHeight = (left != null) ? left.height() : 0;
+        int rightHeight = (right != null) ? right.height() : 0;
+        return Math.max(leftHeight, rightHeight) + 1;
     }
     private boolean findNode(AVLTreeNode node, int value) {
         if (node == null) {
