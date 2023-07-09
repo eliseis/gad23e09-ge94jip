@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class    AVLTreeNode {
     private int key;
-    private int h = 0;
+    private int h = 1;
     private int balance = 0;
     private AVLTreeNode left = null;
     private AVLTreeNode right = null;
@@ -42,7 +42,7 @@ public class    AVLTreeNode {
         this.balance = balance;
     }
     public void seth(int h) {
-        this.h = balance;
+        this.h = h;
     }
     public int height() {
         return h;
