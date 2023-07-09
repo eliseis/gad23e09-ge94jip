@@ -186,7 +186,7 @@ public class    AVLTreeNode {
         Set<AVLTreeNode> visited = new HashSet<>();
         AVLTreeNode current = this;
         while (current.getRight() != null) {
-            if (visited.contains(current.getLeft())) {
+            if (visited.contains(current.getRight())) {
                 // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
                 return current.getKey();
             }
