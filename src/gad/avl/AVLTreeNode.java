@@ -94,14 +94,16 @@ public class    AVLTreeNode {
         if (balance < -1) {
             if (node.getLeft().getBalance() > 0) {
                 // Doppelrotation: Links-Rechts
-                node.rotateRight(rotateLeft(node.getLeft()));
+                node.setLeft(rotateLeft(node.getLeft()));
+                rotateRight(node.getLeft());
             }
             // Einfachrotation: Rechts
             return rotateRight(node);
         } else if (balance > 1) {
             if (node.getRight().getBalance() < 0) {
                 // Doppelrotation: Rechts-Links
-                node.rotateLeft(rotateRight(node.getRight()));
+                node.setRight(rotateRight(node.getRight()));
+                rotateLeft(node.getRight());
             }
             // Einfachrotation: Links
             return rotateLeft(node);
