@@ -164,11 +164,9 @@ public class    AVLTreeNode {
         if (Math.abs(balance) > 1) {
             return false;
         }
-        updateMinMax();
         if (node.getLeft() != null && node.getKey() < node.getLeft().minKey()) {
             return false;
         }
-        updateMinMax();
         if (node.getRight() != null && node.getKey() > node.getRight().maxKey()) {
             return false;
         }
