@@ -80,8 +80,8 @@ public class    AVLTreeNode {
     }
     private void updateHeightAndBalance(AVLTreeNode node) {
         if (node != null) {
-            int leftHeight = node.getLeft().height();
-            int rightHeight = node.getRight().height();
+            int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
+            int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
 
             node.setBalance(rightHeight - leftHeight);
 
@@ -90,12 +90,6 @@ public class    AVLTreeNode {
         }
     }
     private AVLTreeNode balance(AVLTreeNode node) {
-        if (node.getBalance() == 0){
-            return node;
-        }
-        if (node.getBalance() == 1 || node.getBalance() == -1 ){
-            return node;
-        }
         if (node.getBalance() < -1) {
             if (node.getLeft().getBalance() > 0) {
                 node.setLeft(rotateLeft(node.getLeft()));
