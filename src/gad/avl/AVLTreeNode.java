@@ -134,10 +134,7 @@ public class    AVLTreeNode {
             return true;
         }
 
-        if (visited.contains(node)) {
-            // Der Knoten wurde bereits besucht, es gibt einen Kreis im Baum
-            return false;
-        }
+
 
         visited.add(node);
 
@@ -152,10 +149,10 @@ public class    AVLTreeNode {
             return false;
         }
 
-        if (node.getLeft() != null ) {
+        if (node.getLeft() != null && node.getKey() < node.getLeft().maxKey()) {
             return false;
         }
-        if (node.getRight() != null ) {
+        if (node.getRight() != null && node.getKey() > node.getRight().minKey()) {
             return false;
         }
 
