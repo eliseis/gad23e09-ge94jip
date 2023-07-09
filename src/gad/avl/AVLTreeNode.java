@@ -7,8 +7,6 @@ public class    AVLTreeNode {
     private int key;
     private int h = 1;
     private int balance = 0;
-    private AVLTreeNode max;
-    private AVLTreeNode min;
     private AVLTreeNode left = null;
     private AVLTreeNode right = null;
 
@@ -200,16 +198,6 @@ public class    AVLTreeNode {
             V.add(current);
         }
         return current.getKey();
-    }
-    private void updateMinMax() {
-        max = this;
-        min = this;
-        if (left != null) {
-            min = left.min;
-        }
-        if (right != null) {
-            max = right.max;
-        }
     }
 
 
