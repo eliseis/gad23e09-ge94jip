@@ -143,7 +143,7 @@ public class    AVLTreeNode {
         }
 
         visited.add(node);
-
+        updateBalance();
         int leftHeight = (node.getLeft() != null) ? node.getLeft().height() : 0;
         int rightHeight = (node.getRight() != null) ? node.getRight().height() : 0;
         int balance = rightHeight - leftHeight;
