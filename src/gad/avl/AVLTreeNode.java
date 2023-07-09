@@ -165,10 +165,7 @@ public class    AVLTreeNode {
     private int minKey() {
         Set<AVLTreeNode> V = new HashSet<>();
         AVLTreeNode current = this;
-        while (current.getLeft() != null) {
-            if (V.contains(current.getLeft())) {
-                return current.getKey();
-            }
+        while (!V.contains(current.getLeft())) {
             current = current.getLeft();
             V.add(current);
         }
@@ -178,10 +175,7 @@ public class    AVLTreeNode {
     private int maxKey() {
         Set<AVLTreeNode> V = new HashSet<>();
         AVLTreeNode current = this;
-        while (current.getRight() != null) {
-            if (V.contains(current.getRight())) {
-                return current.getKey();
-            }
+        while (!V.contains(current.getRight())) {
             current = current.getRight();
             V.add(current);
         }
