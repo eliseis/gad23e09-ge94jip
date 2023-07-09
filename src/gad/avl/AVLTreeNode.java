@@ -41,8 +41,8 @@ public class    AVLTreeNode {
     public void setBalance(int balance) {
         this.balance = balance;
     }
-    public void seth(int h) {
-        this.h = h;
+    public void seth(int height) {
+        this.h = height;
     }
     public int height() {
         return h;
