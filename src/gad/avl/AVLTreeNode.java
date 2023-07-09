@@ -167,7 +167,7 @@ public class    AVLTreeNode {
         AVLTreeNode current = this;
         while (current.getLeft() != null) {
             current = current.getLeft();
-            if (V.contains(current.getLeft())){
+            if (V.contains(current)){
                 return current.getKey();
             }
             V.add(current);
@@ -180,7 +180,7 @@ public class    AVLTreeNode {
         AVLTreeNode current = this;
         while (current.getRight() != null) {
             current = current.getRight();
-            if (V.contains(current.getRight())){
+            if (V.contains(current)){
                 return current.getKey();
             }
             V.add(current);
