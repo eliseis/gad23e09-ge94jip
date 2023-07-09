@@ -152,10 +152,10 @@ public class    AVLTreeNode {
             return false;
         }
 
-        if (node.getLeft() != null && node.getKey() < node.getLeft().getKey()) {
+        if (node.getLeft() != null ) {
             return false;
         }
-        if (node.getRight() != null && node.getKey() > node.getRight().getKey()) {
+        if (node.getRight() != null ) {
             return false;
         }
 
